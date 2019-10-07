@@ -1,70 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {Button, FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import {db} from "../config/Config";
 import {ListItem} from "react-native-elements";
-import "../config/FixedTime"
 
-export default class ViewPage extends React.Component {
-    render() {
-        const {navigate} = this.props.navigation;
+const ViewData = () => {
+    let dataFirebase = db.ref('items');
+    const [data, setData] = useState();
 
-        let dataFirebase = db.ref('items');
-        const [keys, setKey] = useState();
-        const [data, setData] = useState();
+    useEffect(() => {
+        dataFirebase.on('value', snapshot => {
+            let data = snapshot.val();
+            let items = Object.values(data);
+            console.log(items);
+            setData(items)
+        })
+    }, [setData]);
 
-        useEffect(() => {
-            dataFirebase.on('value', snapshot => {
-                let data = snapshot.val();
-                let keys = Object.keys(data);
-                let items = Object.values(data);
-                console.log(keys);
-                console.log(items);
-                setData(items);
-                setKey(keys)
-            })
-        }, [setData], [setKey]);
-
-        return (
-            <View style={styles.container}>
-                <View>
-                    {data != null ? (
-                        <FlatList
-                            data={data}
-                            renderItem={({item}) => (
-                                <ListItem
-                                    key={keys.id}
-                                    title={item.name}
-                                    subtitle={item.name}
-                                    onPress={() => {
-                                        alert("This is User ID : ")
-                                    }}
-                                />
-                            )}
+    return (
+        <View>
+            { data != null ? (
+                <FlatList
+                    data={data}
+                    renderItem={({item}) => (
+                        <ListItem
+                            key={item.id}
+                            title={item.id}
+                            subtitle={item.name}
+                            onPress={() => {
+                                alert("This is User ID : " + item.id)
+                            }}
                         />
-                    ) : (
-                        <Text>Loading..</Text>
                     )}
-                </View>
-                <View>
-                    <Button
-                        onPress={() => navigate('Ubah')}
-                        title="Update Data"
-                    />
-                </View>
-                <View>
-                    <Button
-                        onPress={() => navigate('Hapus')}
-                        title="Delete Data"
-                    />
-                </View>
-            </View>
-        )
-    }
-}
+                />
+            ) : (
+                <Text>Loading..</Text>
+            )}
+        </View>
+    )
+};
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#f5fcff'
-    }
-});
+export default ViewData;

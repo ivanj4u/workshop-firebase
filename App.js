@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react'
 import {createAppContainer} from 'react-navigation'
-import {StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import {Drawer} from "./src/config/Router";
+import {Provider} from "react-native-paper";
 
 const NavPage = createAppContainer(Drawer);
 
 export default class App extends React.Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Firebase Database</Text>
+            <Provider style={styles}>
                 <NavPage/>
-            </View>
+            </Provider>
         )
     }
 }
