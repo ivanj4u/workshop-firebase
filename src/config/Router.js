@@ -1,10 +1,16 @@
 import {createDrawerNavigator} from 'react-navigation-drawer'
-import {InsertData} from "../db/Insert";
-import ViewData from "../db/View";
+import HomePage from "../db/Home";
+import InsertPage from "../db/Insert";
+import ViewPage from "../db/View";
+import UpdatePage from "../db/Update";
+import DeletePage from "../db/Delete";
 
 export const Drawer = createDrawerNavigator(
     {
-        Insert: InsertData,
-        View: ViewData,
+        Home: HomePage,
+        Tambah: InsertPage,
+        Lihat: ViewPage,
+        Ubah: UpdatePage,
+        Hapus: DeletePage,
     }
 );

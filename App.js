@@ -1,20 +1,20 @@
-import React, {Component, useEffect, useState} from 'react'
-import {View, StyleSheet} from 'react-native'
-import {InsertData} from './src/db/Insert'
-import ViewData from "./src/db/View";
-import "./src/config/FixedTime"
+import React, {useEffect, useState} from 'react'
+import {createAppContainer} from 'react-navigation'
+import {StyleSheet, Text, View} from 'react-native'
+import {Drawer} from "./src/config/Router";
 
-export default class App extends Component {
+const NavPage = createAppContainer(Drawer);
+
+export default class App extends React.Component {
     render() {
         return (
-                <View style={styles.container}>
-                    <InsertData/>
-                    <ViewData/>
-                </View>
+            <View style={styles.container}>
+                <Text>Firebase Database</Text>
+                <NavPage/>
+            </View>
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
